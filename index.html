@@ -2,33 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>LIFE OS — Productivity Dashboard</title>
+<title>LIFE OS — AI Powered</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root{
-  --bg:#0b0e14;
+  --bg:#0b0f17;
   --panel:#121826;
-  --panel2:#0f1422;
+  --panel2:#0e1424;
   --text:#e5e7eb;
   --muted:#9ca3af;
   --green:#2eff7b;
-  --yellow:#facc15;
   --orange:#fb923c;
+  --blue:#60a5fa;
   --border:#1f2937;
 }
-
 *{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
-
 body{
   margin:0;
-  background:var(--bg);
+  background:radial-gradient(circle at top,#10162a,#0b0f17);
   color:var(--text);
   display:flex;
   height:100vh;
+  animation:fade .6s ease;
 }
+@keyframes fade{from{opacity:0}to{opacity:1}}
 
-/* SIDEBAR */
 .sidebar{
   width:240px;
   background:#080b12;
@@ -41,240 +40,183 @@ body{
   font-weight:700;
   margin-bottom:30px;
 }
-.nav a{
-  display:block;
-  padding:10px 12px;
-  margin-bottom:8px;
-  border-radius:8px;
+.nav button{
+  width:100%;
+  background:none;
+  border:none;
   color:var(--muted);
-  text-decoration:none;
+  padding:12px;
+  border-radius:10px;
+  text-align:left;
+  cursor:pointer;
 }
-.nav a:hover,
-.nav a.active{
+.nav button.active,
+.nav button:hover{
   background:var(--panel);
   color:var(--text);
 }
 
-/* MAIN */
-.main{
-  flex:1;
-  padding:20px;
-  overflow:auto;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-.search{
-  background:var(--panel);
-  padding:10px 14px;
-  border-radius:10px;
-  color:var(--muted);
-  width:260px;
-}
-
-/* CARDS */
+.main{flex:1;padding:24px;overflow:auto}
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:16px;
 }
 .card{
-  background:var(--panel);
+  background:linear-gradient(145deg,var(--panel),var(--panel2));
   padding:18px;
-  border-radius:14px;
+  border-radius:16px;
+  transition:.3s;
 }
-.card h3{
-  margin:0 0 8px;
-  font-size:14px;
-  color:var(--muted);
-}
-.big{
-  font-size:26px;
-  font-weight:700;
-}
+.card:hover{transform:translateY(-4px)}
+.big{font-size:26px;font-weight:700}
 
-/* JOURNALS */
-.journals{
-  margin-top:22px;
-}
-.journal-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:14px;
-}
-.journal{
-  background:var(--panel);
-  padding:12px;
-  border-radius:12px;
-}
-.journal small{color:var(--muted)}
-.progress{
-  height:6px;
-  background:#1f2937;
-  border-radius:4px;
-  overflow:hidden;
-  margin-top:6px;
-}
-.progress div{
-  height:100%;
-  background:var(--green);
-}
-
-/* HABITS */
-.habits{
-  margin-top:22px;
-}
-.habit{
-  background:var(--panel);
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
-}
-
-/* SKILL TREE */
-.skills{
-  margin-top:22px;
-}
-.skill-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:14px;
-}
-.skill{
+.section{margin-top:26px}
+.habit,.skill{
   background:var(--panel);
   padding:14px;
   border-radius:12px;
-}
-.skill b{display:block}
-.bar{
-  height:6px;
-  background:#1f2937;
-  border-radius:4px;
-  overflow:hidden;
-  margin-top:6px;
-}
-.bar div{
-  height:100%;
-  background:var(--orange);
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-/* MOBILE */
-@media(max-width:900px){
-  .sidebar{display:none}
-  .search{width:100%}
+.ai-box{
+  background:linear-gradient(145deg,#0f172a,#020617);
+  border:1px solid #1e293b;
+  padding:16px;
+  border-radius:14px;
+  margin-top:20px;
 }
+.ai-title{color:var(--blue);font-weight:600}
+.ai-text{margin-top:8px;color:#c7d2fe}
+
+button.action{
+  background:var(--orange);
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+@media(max-width:900px){.sidebar{display:none}}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="logo">🌱 LIFE OS</div>
+  <div class="logo">🤖 LIFE OS AI</div>
   <div class="nav">
-    <a class="active">Dashboard</a>
-    <a>Journals</a>
-    <a>Habits</a>
-    <a>Skill Tree</a>
-    <a>Settings</a>
+    <button class="active" onclick="show('dash')">Dashboard</button>
+    <button onclick="show('habits')">Habits</button>
+    <button onclick="show('skills')">Skills</button>
+    <button onclick="show('ai')">AI Coach</button>
+    <button onclick="show('settings')">Settings</button>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- TOP -->
-  <div class="topbar">
-    <div class="search">🔍 Search</div>
-    <div>Welcome back 👋</div>
-  </div>
-
-  <!-- STATS -->
+<!-- DASHBOARD -->
+<div id="dash" class="page">
   <div class="cards">
-    <div class="card">
-      <h3>Focus Time</h3>
-      <div class="big">17h 30m</div>
-    </div>
-    <div class="card">
-      <h3>Habits Done</h3>
-      <div class="big">5 / 7</div>
-    </div>
-    <div class="card">
-      <h3>Energy</h3>
-      <div class="big">68%</div>
-    </div>
-    <div class="card">
-      <h3>Discipline</h3>
-      <div class="big">82%</div>
-    </div>
+    <div class="card"><div class="big" id="habitScore">0 / 3</div>Habits</div>
+    <div class="card"><div class="big" id="discipline">0%</div>Discipline</div>
+    <div class="card"><div class="big" id="energy">--</div>Energy</div>
   </div>
 
-  <!-- JOURNALS -->
-  <div class="journals">
-    <h2>📓 Productivity Journals</h2>
-    <div class="journal-grid">
-      <div class="journal">
-        <b>Monday</b>
-        <small>67%</small>
-        <div class="progress"><div style="width:67%"></div></div>
-      </div>
-      <div class="journal">
-        <b>Tuesday</b>
-        <small>71%</small>
-        <div class="progress"><div style="width:71%"></div></div>
-      </div>
-      <div class="journal">
-        <b>Wednesday</b>
-        <small>43%</small>
-        <div class="progress"><div style="width:43%"></div></div>
-      </div>
-      <div class="journal">
-        <b>Thursday</b>
-        <small>86%</small>
-        <div class="progress"><div style="width:86%"></div></div>
-      </div>
-    </div>
+  <div class="ai-box">
+    <div class="ai-title">🧠 AI Daily Insight</div>
+    <div class="ai-text" id="aiInsight"></div>
   </div>
+</div>
 
-  <!-- HABITS -->
-  <div class="habits">
-    <h2>✅ Habit Tracker</h2>
-    <div class="habit">📖 Read <span>🔥 2 days</span></div>
-    <div class="habit">🏃 Workout <span>🔥 5 days</span></div>
-    <div class="habit">🧘 Meditate <span>🔥 3 days</span></div>
-    <div class="habit">🚿 Cold Shower <span>🔥 5 days</span></div>
+<!-- HABITS -->
+<div id="habits" class="page" style="display:none">
+  <div class="section">
+    <div class="habit">📖 Read <input type="checkbox" onchange="toggle('read')"></div>
+    <div class="habit">🏋️ Workout <input type="checkbox" onchange="toggle('workout')"></div>
+    <div class="habit">🧘 Meditate <input type="checkbox" onchange="toggle('meditate')"></div>
   </div>
+</div>
 
-  <!-- SKILLS -->
-  <div class="skills">
-    <h2>🧠 Skill Tree</h2>
-    <div class="skill-grid">
-      <div class="skill">
-        <b>Focus</b>
-        <div class="bar"><div style="width:70%"></div></div>
-      </div>
-      <div class="skill">
-        <b>Willpower</b>
-        <div class="bar"><div style="width:65%"></div></div>
-      </div>
-      <div class="skill">
-        <b>Clarity</b>
-        <div class="bar"><div style="width:58%"></div></div>
-      </div>
-      <div class="skill">
-        <b>Energy</b>
-        <div class="bar"><div style="width:72%"></div></div>
-      </div>
-    </div>
+<!-- SKILLS -->
+<div id="skills" class="page" style="display:none">
+  <div class="section">
+    <div class="skill">Focus <input type="range" min="0" max="100" oninput="skill('focus',this.value)"></div>
+    <div class="skill">Willpower <input type="range" min="0" max="100" oninput="skill('will',this.value)"></div>
   </div>
+</div>
+
+<!-- AI -->
+<div id="ai" class="page" style="display:none">
+  <div class="ai-box">
+    <div class="ai-title">🤖 AI Coach</div>
+    <div class="ai-text" id="coach"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="page" style="display:none">
+  <button class="action" onclick="reset()">Reset All Data</button>
+</div>
 
 </div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+/* HABITS */
+function toggle(k){
+  localStorage.setItem(k,!(localStorage.getItem(k)==='true'));
+  update();
+}
+
+/* SKILLS */
+function skill(k,v){localStorage.setItem(k,v);update();}
+
+/* AI LOGIC */
+function update(){
+  let done=0;
+  ['read','workout','meditate'].forEach(k=>{
+    if(localStorage.getItem(k)==='true') done++;
+  });
+  document.getElementById('habitScore').innerText=`${done} / 3`;
+
+  let discipline=Math.round((done/3)*100);
+  document.getElementById('discipline').innerText=discipline+'%';
+
+  document.getElementById('energy').innerText=
+    discipline>70?'High':discipline>40?'Medium':'Low';
+
+  // AI Reasoning
+  let msg="";
+  if(discipline>=80) msg="Excellent discipline. Maintain momentum.";
+  else if(discipline>=50) msg="Good progress. One more habit will boost discipline.";
+  else msg="Low discipline detected. Focus on basics today.";
+
+  document.getElementById('aiInsight').innerText=msg;
+  document.getElementById('coach').innerText=
+    "Based on your habits, today's priority should be: "+
+    (done<2?"complete minimum habits":"deep focus work");
+}
+update();
+
+/* RESET */
+function reset(){
+  if(confirm("Reset everything?")){
+    localStorage.clear();location.reload();
+  }
+}
+</script>
 
 </body>
 </html>
