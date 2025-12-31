@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>LIFE OS — AI Powered</title>
+<title>LIFE OS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -17,17 +17,26 @@
   --blue:#60a5fa;
   --border:#1f2937;
 }
+
+/* RESET */
 *{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+
+/* BODY */
 body{
   margin:0;
-  background:radial-gradient(circle at top,#10162a,#0b0f17);
+  background:linear-gradient(120deg,#0b0f17,#0a1220);
   color:var(--text);
   display:flex;
   height:100vh;
-  animation:fade .6s ease;
+  animation:fadeIn .6s ease;
 }
-@keyframes fade{from{opacity:0}to{opacity:1}}
 
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+
+/* SIDEBAR */
 .sidebar{
   width:240px;
   background:#080b12;
@@ -36,19 +45,20 @@ body{
 }
 .logo{
   color:var(--green);
-  font-size:20px;
   font-weight:700;
+  font-size:20px;
   margin-bottom:30px;
 }
 .nav button{
   width:100%;
+  text-align:left;
   background:none;
   border:none;
   color:var(--muted);
   padding:12px;
   border-radius:10px;
-  text-align:left;
   cursor:pointer;
+  margin-bottom:6px;
 }
 .nav button.active,
 .nav button:hover{
@@ -56,7 +66,19 @@ body{
   color:var(--text);
 }
 
-.main{flex:1;padding:24px;overflow:auto}
+/* MAIN */
+.main{
+  flex:1;
+  padding:24px;
+  overflow:auto;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+/* CARDS */
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -66,32 +88,63 @@ body{
   background:linear-gradient(145deg,var(--panel),var(--panel2));
   padding:18px;
   border-radius:16px;
+  box-shadow:0 0 0 transparent;
   transition:.3s;
 }
-.card:hover{transform:translateY(-4px)}
-.big{font-size:26px;font-weight:700}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.card h3{margin:0;color:var(--muted);font-size:14px}
+.big{font-size:26px;font-weight:700;margin-top:6px}
 
-.section{margin-top:26px}
-.habit,.skill{
+/* SECTIONS */
+.section{
+  margin-top:28px;
+  animation:fadeIn .5s ease;
+}
+.section h2{margin-bottom:14px}
+
+/* JOURNALS */
+.journal{
+  background:var(--panel);
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:10px;
+}
+.progress{
+  height:6px;
+  background:#1f2937;
+  border-radius:4px;
+  overflow:hidden;
+}
+.progress div{
+  height:100%;
+  background:var(--green);
+  transition:.3s;
+}
+
+/* HABITS */
+.habit{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   background:var(--panel);
   padding:14px;
   border-radius:12px;
   margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
 }
 
-.ai-box{
-  background:linear-gradient(145deg,#0f172a,#020617);
-  border:1px solid #1e293b;
-  padding:16px;
-  border-radius:14px;
-  margin-top:20px;
+/* SKILLS */
+.skill{
+  background:var(--panel);
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:10px;
 }
-.ai-title{color:var(--blue);font-weight:600}
-.ai-text{margin-top:8px;color:#c7d2fe}
+.skill input{width:100%}
 
+/* SETTINGS */
 button.action{
   background:var(--orange);
   border:none;
@@ -101,72 +154,108 @@ button.action{
   font-weight:600;
 }
 
-@media(max-width:900px){.sidebar{display:none}}
+/* MOBILE */
+@media(max-width:900px){
+  .sidebar{display:none}
+}
 </style>
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="logo">🤖 LIFE OS AI</div>
+  <div class="logo">🌱 LIFE OS</div>
   <div class="nav">
-    <button class="active" onclick="show('dash')">Dashboard</button>
+    <button class="active" onclick="show('dashboard')">Dashboard</button>
     <button onclick="show('habits')">Habits</button>
-    <button onclick="show('skills')">Skills</button>
-    <button onclick="show('ai')">AI Coach</button>
+    <button onclick="show('skills')">Skill Tree</button>
     <button onclick="show('settings')">Settings</button>
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
 <!-- DASHBOARD -->
-<div id="dash" class="page">
-  <div class="cards">
-    <div class="card"><div class="big" id="habitScore">0 / 3</div>Habits</div>
-    <div class="card"><div class="big" id="discipline">0%</div>Discipline</div>
-    <div class="card"><div class="big" id="energy">--</div>Energy</div>
+<div id="dashboard" class="page">
+  <div class="topbar">
+    <div>Welcome back 👋</div>
+    <div>Discipline Mode ON</div>
   </div>
 
-  <div class="ai-box">
-    <div class="ai-title">🧠 AI Daily Insight</div>
-    <div class="ai-text" id="aiInsight"></div>
+  <div class="cards">
+    <div class="card"><h3>Focus Time</h3><div class="big">17h 30m</div></div>
+    <div class="card"><h3>Habits Done</h3><div class="big" id="habitCount">0 / 3</div></div>
+    <div class="card"><h3>Energy</h3><div class="big">68%</div></div>
+    <div class="card"><h3>Discipline</h3><div class="big">82%</div></div>
+  </div>
+
+  <div class="section">
+    <h2>📓 Productivity Journals</h2>
+    <div class="journal">
+      Monday <span id="monVal">70%</span>
+      <div class="progress"><div id="monBar" style="width:70%"></div></div>
+    </div>
   </div>
 </div>
 
 <!-- HABITS -->
 <div id="habits" class="page" style="display:none">
   <div class="section">
-    <div class="habit">📖 Read <input type="checkbox" onchange="toggle('read')"></div>
-    <div class="habit">🏋️ Workout <input type="checkbox" onchange="toggle('workout')"></div>
-    <div class="habit">🧘 Meditate <input type="checkbox" onchange="toggle('meditate')"></div>
+    <h2>✅ Habit Tracker</h2>
+
+    <div class="habit">
+      📖 Read
+      <input type="checkbox" onchange="toggleHabit(this,'read')">
+    </div>
+
+    <div class="habit">
+      🏋️ Workout
+      <input type="checkbox" onchange="toggleHabit(this,'workout')">
+    </div>
+
+    <div class="habit">
+      🧘 Meditate
+      <input type="checkbox" onchange="toggleHabit(this,'meditate')">
+    </div>
   </div>
 </div>
 
 <!-- SKILLS -->
 <div id="skills" class="page" style="display:none">
   <div class="section">
-    <div class="skill">Focus <input type="range" min="0" max="100" oninput="skill('focus',this.value)"></div>
-    <div class="skill">Willpower <input type="range" min="0" max="100" oninput="skill('will',this.value)"></div>
-  </div>
-</div>
+    <h2>🧠 Skill Tree</h2>
 
-<!-- AI -->
-<div id="ai" class="page" style="display:none">
-  <div class="ai-box">
-    <div class="ai-title">🤖 AI Coach</div>
-    <div class="ai-text" id="coach"></div>
+    <div class="skill">
+      Focus
+      <input type="range" min="0" max="100" oninput="saveSkill('focus',this.value)">
+    </div>
+
+    <div class="skill">
+      Willpower
+      <input type="range" min="0" max="100" oninput="saveSkill('will',this.value)">
+    </div>
+
+    <div class="skill">
+      Clarity
+      <input type="range" min="0" max="100" oninput="saveSkill('clarity',this.value)">
+    </div>
   </div>
 </div>
 
 <!-- SETTINGS -->
 <div id="settings" class="page" style="display:none">
-  <button class="action" onclick="reset()">Reset All Data</button>
+  <div class="section">
+    <h2>⚙️ Settings</h2>
+    <button class="action" onclick="resetData()">Reset All Data</button>
+  </div>
 </div>
 
 </div>
 
 <script>
+/* NAV */
 function show(id){
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById(id).style.display='block';
@@ -175,45 +264,35 @@ function show(id){
 }
 
 /* HABITS */
-function toggle(k){
-  localStorage.setItem(k,!(localStorage.getItem(k)==='true'));
-  update();
+function toggleHabit(box,key){
+  localStorage.setItem(key,box.checked);
+  updateHabits();
 }
+function updateHabits(){
+  let count=0;
+  ['read','workout','meditate'].forEach(k=>{
+    if(localStorage.getItem(k)==='true') count++;
+    document.querySelector(`input[onchange*="${k}"]`).checked =
+      localStorage.getItem(k)==='true';
+  });
+  document.getElementById('habitCount').innerText=`${count} / 3`;
+}
+updateHabits();
 
 /* SKILLS */
-function skill(k,v){localStorage.setItem(k,v);update();}
-
-/* AI LOGIC */
-function update(){
-  let done=0;
-  ['read','workout','meditate'].forEach(k=>{
-    if(localStorage.getItem(k)==='true') done++;
-  });
-  document.getElementById('habitScore').innerText=`${done} / 3`;
-
-  let discipline=Math.round((done/3)*100);
-  document.getElementById('discipline').innerText=discipline+'%';
-
-  document.getElementById('energy').innerText=
-    discipline>70?'High':discipline>40?'Medium':'Low';
-
-  // AI Reasoning
-  let msg="";
-  if(discipline>=80) msg="Excellent discipline. Maintain momentum.";
-  else if(discipline>=50) msg="Good progress. One more habit will boost discipline.";
-  else msg="Low discipline detected. Focus on basics today.";
-
-  document.getElementById('aiInsight').innerText=msg;
-  document.getElementById('coach').innerText=
-    "Based on your habits, today's priority should be: "+
-    (done<2?"complete minimum habits":"deep focus work");
+function saveSkill(k,v){
+  localStorage.setItem(k,v);
 }
-update();
+['focus','will','clarity'].forEach(k=>{
+  const v=localStorage.getItem(k)||50;
+  document.querySelector(`input[oninput*="${k}"]`).value=v;
+});
 
 /* RESET */
-function reset(){
-  if(confirm("Reset everything?")){
-    localStorage.clear();location.reload();
+function resetData(){
+  if(confirm("Reset all data?")){
+    localStorage.clear();
+    location.reload();
   }
 }
 </script>
